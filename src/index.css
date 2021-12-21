@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Karla", "Inter", Verdana, Geneva, Tahoma, sans-serif;
+}
+body {
+  background-color: #F5F7FB;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #293264;
+  padding: 20px;
+}
+
+button {
+  font-family: "Inter";
+}
+
+.quiz {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-bottom: 0.794239px solid #DBDEF0;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+.quiz h1 {
+  font-size: 16px;
+}
+.btn-array {
+  display: flex;
+  gap: 15px;
+}
+.answer-btn {
+  font-size: 13px;
+  font-weight: 500;
+  background-color: #F5F7FB;
+  color: #293264;
+  border:#293264 1px solid;
+  border-radius: 7.94px;
+  padding: 4px 10px;
+}
+.answer-btn:hover {
+  cursor: pointer;
+  background-color: #FFFAD1;
+}
+.answer-btn.selected {
+  background-color: #D6DBF5;
+  color: #293264;
+}
+.answer-btn:disabled:hover {
+  cursor: default;
+  background-color: #F5F7FB;
+}
+.answer-btn.correct,
+.answer-btn.correct:disabled:hover {
+  background-color: #94D7A2;
+  border: none;
+}
+.answer-btn.incorrect,
+.answer-btn.incorrect:disabled:hover {
+  background-color: #F8BCBC;
+  color:#29326491;
+  border: none;
+}
+.answer-btn.missed,
+.answer-btn.missed:disabled:hover {
+  background-color: #d6dbf57e;
+}
+
+.start-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  width: 15vw;
+  height: 75vh;
+  min-width: 150px;
+  max-width: 250px;
+  min-height: 500px;
+}
+.start-screen p {
+  font-weight: 500;
+  font-size: 1.15em;
+}
+
+.start-screen button,
+.main-btn {
+  padding: 10px 15px;
+  border-radius: 15px;
+  border: none;
+  font-weight: 500;
+  font-size: 1.15em;
+  background-color: #4D5B9E;
+  color: white;
+  font-family: "Inter";
+}
+
+.start-screen button:hover,
+.main-btn:hover {
+  cursor: pointer;
+  color: #FFFAD1;
+}
+.start-screen button:active,
+.main-btn:active {
+  background-color: #D6DBF5;
+  color: #4D5B9E;
+}
+.main-btn:disabled,
+.main-btn:disabled:hover {
+  background-color: #4d5b9e48;
+  color: rgba(255, 255, 255, 0.678);
+  cursor: default;
+}
+.game-complete-panel {
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+}
+.blob {
+  position: absolute;
+  width: 30vw;
+  min-width: 250px;
+  z-index: -1;
+}
+.blob.blob-left {
+  fill: #DEEBF8;
+  bottom: -25%;
+  left: -10%;
+}
+.blob.blob-right {
+  fill: #FFFAD1;
+  top: -20%;
+  right: -10%;
+}
