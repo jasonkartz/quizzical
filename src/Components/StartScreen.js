@@ -6,7 +6,7 @@ export default function StartScreen(props) {
         <div className="start-screen">
             <h1>Quizzical</h1>
             
-            <button onClick={props.handleClick}>Start Quiz</button>
+            <button onClick={props.handleClick}>{props.status === "loading" ? 'Loading...' : 'Start Quiz'}</button>
         </div>
     )
 }

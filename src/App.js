@@ -7,14 +7,14 @@ import Blob from "./Components/Blob";
 
 export default function App() {
   const [quizData, setQuizData] = useState([]);
-  const [quizStage, setquizStage] = useState("start");
+  const [quizStage, setQuizStage] = useState("start");
 
   let tally = 0;
   quizData.map((data) => data.correct_answer_selected && tally++);
 
   function initializeGame() {
     setQuizData([])
-    setquizStage("start")
+    setQuizStage("start")
   }
 
   function decodeHTML(html) {
@@ -41,12 +41,13 @@ export default function App() {
             data.selected_answer === data.correct_answer ? true : false,
         }))
       );
-      setquizStage("complete");
+      setQuizStage("complete");
     }
   }
 
-  function startGame() {
-    fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
+  async function startGame() {
+    setQuizStage("loading")
+    await fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
       .then((res) => res.json())
       .then((data) =>
         setQuizData(
@@ -73,7 +74,7 @@ export default function App() {
           })
         )
       );
-    setquizStage("active");
+    setQuizStage("active");
   }
 
  
@@ -99,7 +100,7 @@ export default function App() {
 
   return (
     <main>
-      {quizStage === "start" ? <StartScreen handleClick={startGame} /> : questions}
+      {quizStage === "start" || quizStage === "loading" ? <StartScreen handleClick={startGame} status={quizStage}/> : questions}
       {quizStage === "active" && (
         <div className="game-complete-panel">
           <button
