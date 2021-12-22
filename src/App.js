@@ -129,11 +129,4 @@ export default function App() {
   );
 }
 
-/*
- useEffect(() => {
-    initializeGame();
-  }, []);
 
-      <Blob style="blob blob-left"/>
-      <Blob style="blob blob-right"/>
-*/
