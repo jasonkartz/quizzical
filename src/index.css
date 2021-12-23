@@ -31,6 +31,12 @@ button {
 .quiz h1 {
   font-size: 16px;
 }
+.quiz p {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  font-style: italic;
+}
 .btn-array {
   display: flex;
   gap: 15px;

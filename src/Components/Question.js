@@ -17,7 +17,10 @@ export default function Question(props) {
     }  
   return (
     <section className="quiz">
+      <div>
+      <p>{props.category}</p>
       <h1>{props.question}</h1>
+      </div>
       <div className="btn-array">
         <button
           disabled={props.quizStage === "complete" ? true : false}

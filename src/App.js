@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
-import { nanoid } from "nanoid";
 import StartScreen from "./Components/StartScreen";
 import Question from "./Components/Question";
-import Blob from "./Components/Blob";
+
 
 export default function App() {
   const [quizData, setQuizData] = useState([]);
@@ -45,9 +44,44 @@ export default function App() {
     }
   }
 
-  async function startGame() {
+  async function startGame(gameSettings) {
     setQuizStage("loading")
-    await fetch("https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple")
+    const difficulty = {
+      "any": "",
+      "easy": "&difficulty=easy",
+      "medium": "&difficulty=medium",
+      "hard": "&difficulty=hard"
+    }
+
+    const category = {
+      "Any Category": "",
+      "General Knowledge": "&category=9",
+      "Entertainment: Books": "&category=10",
+      "Entertainment: Film": "&category=11",
+      "Entertainment: Music": "&category=12",
+      "Entertainment: Musicals & Theatres": "&category=13",
+      "Entertainment: Television": "&category=14",
+      "Entertainment: Video Games": "&category=15",
+      "Entertainment: Board Games": "&category=16",
+      "Science & Nature": "&category=17",
+      "Science: Computers": "&category=18",
+      "Science: Mathematics": "&category=19",
+      "Mythology": "&category=20",
+      "Sports": "&category=21",
+      "Geography": "&category=22",
+      "History": "&category=23",
+      "Politics": "&category=24",
+      "Art": "&category=25",
+      "Celebrities": "&category=26",
+      "Animals": "&category=27",
+      "Vehicles": "&category=28",
+      "Entertainment: Comics": "&category=29",
+      "Science: Gadgets": "&category=30",
+      "Entertainment: Japanese Anime & Manga": "&category=31",
+      "Entertainment: Cartoon & Animations":  "&category=32"
+    }
+
+    await fetch(`https://opentdb.com/api.php?amount=5&type=multiple${difficulty[gameSettings.difficulty]}${category[gameSettings.category]}`)
       .then((res) => res.json())
       .then((data) =>
         setQuizData(
@@ -84,6 +118,7 @@ export default function App() {
       <Question
         key={data.id}
         id={data.id}
+        category={data.category}
         question={data.question}
         answer1={decodeHTML(data.shuffled_answers[0])}
         answer2={decodeHTML(data.shuffled_answers[1])}
@@ -100,7 +135,7 @@ export default function App() {
 
   return (
     <main>
-      {quizStage === "start" || quizStage === "loading" ? <StartScreen handleClick={startGame} status={quizStage}/> : questions}
+      {quizStage === "start" || quizStage === "loading" ? <StartScreen startGame={startGame} status={quizStage}/> : questions}
       {quizStage === "active" && (
         <div className="game-complete-panel">
           <button
@@ -124,8 +159,6 @@ export default function App() {
           </button>
         </div>
       ) } 
-      <Blob style="blob blob-left"/>
-      <Blob style="blob blob-right"/>
     </main>
   );
 }
