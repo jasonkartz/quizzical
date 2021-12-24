@@ -76,21 +76,4 @@ export default function StartScreen(props) {
   );
 }
 
-/*
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/
