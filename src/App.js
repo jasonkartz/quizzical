@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./index.css";
 import StartScreen from "./Components/StartScreen";
 import Question from "./Components/Question";
-
 
 export default function App() {
   const [quizData, setQuizData] = useState([]);
@@ -12,8 +11,8 @@ export default function App() {
   quizData.map((data) => data.correct_answer_selected && tally++);
 
   function initializeGame() {
-    setQuizData([])
-    setQuizStage("start")
+    setQuizData([]);
+    setQuizStage("start");
   }
 
   function decodeHTML(html) {
@@ -45,13 +44,13 @@ export default function App() {
   }
 
   async function startGame(gameSettings) {
-    setQuizStage("loading")
+    setQuizStage("loading");
     const difficulty = {
-      "any": "",
-      "easy": "&difficulty=easy",
-      "medium": "&difficulty=medium",
-      "hard": "&difficulty=hard"
-    }
+      any: "",
+      easy: "&difficulty=easy",
+      medium: "&difficulty=medium",
+      hard: "&difficulty=hard",
+    };
 
     const category = {
       "Any Category": "",
@@ -66,30 +65,44 @@ export default function App() {
       "Science & Nature": "&category=17",
       "Science: Computers": "&category=18",
       "Science: Mathematics": "&category=19",
-      "Mythology": "&category=20",
-      "Sports": "&category=21",
-      "Geography": "&category=22",
-      "History": "&category=23",
-      "Politics": "&category=24",
-      "Art": "&category=25",
-      "Celebrities": "&category=26",
-      "Animals": "&category=27",
-      "Vehicles": "&category=28",
+      Mythology: "&category=20",
+      Sports: "&category=21",
+      Geography: "&category=22",
+      History: "&category=23",
+      Politics: "&category=24",
+      Art: "&category=25",
+      Celebrities: "&category=26",
+      Animals: "&category=27",
+      Vehicles: "&category=28",
       "Entertainment: Comics": "&category=29",
       "Science: Gadgets": "&category=30",
       "Entertainment: Japanese Anime & Manga": "&category=31",
-      "Entertainment: Cartoon & Animations":  "&category=32"
+      "Entertainment: Cartoon & Animations": "&category=32",
+    };
+    const type = {
+      multiple: "&type=multiple",
+      any: "",
+    };
+    const amount = {
+      "5": "5",
+      "10": "10",
+      "15": "15",
+      "20": "20"
     }
-
-    await fetch(`https://opentdb.com/api.php?amount=5&type=multiple${difficulty[gameSettings.difficulty]}${category[gameSettings.category]}`)
+    await fetch(
+      `https://opentdb.com/api.php?amount=${amount[gameSettings.amount]}${
+        difficulty[gameSettings.difficulty]
+      }${category[gameSettings.category]}${type[gameSettings.type]}`
+    )
       .then((res) => res.json())
       .then((data) =>
         setQuizData(
           data.results.map((data, index) => {
             const shuffledArray = [
-              data.correct_answer,
-              ...data.incorrect_answers,
+              decodeHTML(data.correct_answer),
+              ...data.incorrect_answers.map((answer) => decodeHTML(answer)),
             ];
+
             for (let i = shuffledArray.length - 1; i > 0; i--) {
               const j = Math.floor(Math.random() * (i + 1));
               const temp = shuffledArray[i];
@@ -111,8 +124,6 @@ export default function App() {
     setQuizStage("active");
   }
 
- 
-
   const questions = quizData.map((data) => {
     return (
       <Question
@@ -120,10 +131,7 @@ export default function App() {
         id={data.id}
         category={data.category}
         question={data.question}
-        answer1={decodeHTML(data.shuffled_answers[0])}
-        answer2={decodeHTML(data.shuffled_answers[1])}
-        answer3={decodeHTML(data.shuffled_answers[2])}
-        answer4={decodeHTML(data.shuffled_answers[3])}
+        answerArray={data.shuffled_answers}
         selected_answer={data.selected_answer}
         correct_answer={data.correct_answer}
         correct_answer_selected={data.correct_answer_selected}
@@ -135,7 +143,11 @@ export default function App() {
 
   return (
     <main>
-      {quizStage === "start" || quizStage === "loading" ? <StartScreen startGame={startGame} status={quizStage}/> : questions}
+      {quizStage === "start" || quizStage === "loading" ? (
+        <StartScreen startGame={startGame} status={quizStage} />
+      ) : (
+        questions
+      )}
       {quizStage === "active" && (
         <div className="game-complete-panel">
           <button
@@ -150,17 +162,14 @@ export default function App() {
 
       {quizStage === "complete" && (
         <div className="game-complete-panel">
-          <p>You scored {tally}/5 correct answers</p>
-          <button 
-            className="main-btn" 
-            onClick={initializeGame}
-            >
+          <p>
+            You scored {tally}/{quizData.length} correct answers
+          </p>
+          <button className="main-btn" onClick={initializeGame}>
             Play Again
           </button>
         </div>
-      ) } 
+      )}
     </main>
   );
 }
-
-

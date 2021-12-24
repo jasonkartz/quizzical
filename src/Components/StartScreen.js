@@ -4,6 +4,8 @@ export default function StartScreen(props) {
   const [gameSettings, setGameSettings] = useState({
     category: "Any Category",
     difficulty: "any",
+    type: "multiple",
+    amount: "5"
   });
 
   function handleChange(event) {
@@ -53,6 +55,18 @@ export default function StartScreen(props) {
         <option value="Entertainment: Television">Television</option>
         <option value="Entertainment: Video Games">Video Games</option>
         <option value="Vehicles">Vehicles</option>
+      </select>
+
+      <select name="type" value={props.value} onChange={handleChange}>
+        <option value="multiple">Multiple Choice Only</option>
+        <option value="any">Multiple Choice + True / False</option>
+      </select>
+
+      <select name="amount" value={props.value} onChange={handleChange}>
+        <option value="5">5 Questions</option>
+        <option value="10">10 Questions</option>
+        <option value="15">15 Questions</option>
+        <option value="20">20 Questions</option>
       </select>
 
       <button onClick={() => props.startGame(gameSettings)}>
